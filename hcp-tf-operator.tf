@@ -1,9 +1,24 @@
+#create kubernetes namespace
+resource "kubernetes_namespace" "operator" {
+  metadata {
+    name = var.tfc_operator_namespace
+  }
+}
+
+#create kubernetes namespace
+resource "kubernetes_namespace" "tfe_agents" {
+  metadata {
+    name = "tfe-agents"
+  }
+}
+
+
 resource "kubernetes_secret" "operator" {
   count = var.create_tfc_operator ? 1 : 0
 
   metadata {
-    name      = "tfc-operator"
-    namespace = "tfe-agents"
+    name      = "hcp-operator"
+    namespace = kubernetes_namespace.tfe_agents.metadata.0.name
   }
 
   data = {
@@ -19,23 +34,23 @@ resource "helm_release" "operator" {
   repository = "https://helm.releases.hashicorp.com"
   chart      = "terraform-cloud-operator"
   version    = var.tfc_operator_version
-  namespace  = var.tfc_operator_namespace
+  namespace  = kubernetes_namespace.operator.metadata.0.name
   values = [
     file("${path.module}/values.yaml")
   ]
 
 }
-  
 
 
-resource "kubernetes_manifest" "operator" {
-  count = var.create_tfc_operator ? 1 : 0
-  manifest = provider::kubernetes::manifest_decode(file("${path.module}/tfc-operator.yaml"))
-  field_manager {
-    # set the name of the field manager
-    name = "manager"
 
-    # force field manager conflicts to be overridden
-    force_conflicts = true
-  }
-}
+# resource "kubernetes_manifest" "operator" {
+#   count    = var.create_tfc_operator ? 1 : 0
+#   manifest = provider::kubernetes::manifest_decode(file("${path.module}/tfc-operator.yaml"))
+#   field_manager {
+#     # set the name of the field manager
+#     name = "manager"
+
+#     # force field manager conflicts to be overridden
+#     force_conflicts = true
+#   }
+# }

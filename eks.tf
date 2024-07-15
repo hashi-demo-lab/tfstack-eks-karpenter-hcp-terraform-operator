@@ -4,7 +4,7 @@
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.11"
+  version = "~> 20.17"
 
   cluster_name    = local.name
   cluster_version = "1.30"
@@ -38,7 +38,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     karpenter = {
-      instance_types = ["m5.large"]
+      instance_types = ["m7i.large"]
 
       min_size     = 2
       max_size     = 3
@@ -80,9 +80,9 @@ output "configure_kubectl" {
 
 module "karpenter" {
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
-  version = "~> 20.11"
+  version = "~> 20.17"
 
-  cluster_name = module.eks.cluster_name
+  cluster_name = local.name
 
   # Name needs to match role name passed to the EC2NodeClass
   node_iam_role_use_name_prefix   = false
@@ -103,7 +103,7 @@ resource "helm_release" "karpenter" {
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
   chart               = "karpenter"
-  version             = "0.36.2"
+  version             = "0.37.0"
   wait                = false
 
   values = [

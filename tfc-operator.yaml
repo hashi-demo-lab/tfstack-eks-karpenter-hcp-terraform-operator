@@ -1,0 +1,30 @@
+apiVersion: app.terraform.io/v1alpha2
+kind: AgentPool
+metadata:
+  name: agentpoolaws
+  namespace: tfe-agents
+spec:
+  organization: apj
+  token:
+    secretKeyRef:
+      name: hcp-operator
+      key: token
+  name: agentpoolaws
+  agentTokens:
+    - name: white
+    - name: blue
+    - name: red
+    - name: yellow
+    - name: green
+  agentDeployment:
+    replicas: 3
+    spec:
+      nodeSelector:
+          eks.amazonaws.com/nodegroup: tfe-eks-private-nodes-agents
+      containers:
+        - name: tfc-agent
+          image: "public.ecr.aws/v0v7m9q0/tfc-agent-custom:latest"
+  autoscaling:
+    minReplicas: 150
+    maxReplicas: 300
+    cooldownPeriodSeconds: 60
