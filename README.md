@@ -18,6 +18,27 @@ terraform apply -target="module.eks" -auto-approve;
 terraform apply -auto-approve
 ```
 
+# patch operator deployment to allow for taint
+
+```
+kubectl patch deployment terraform-cloud-operator -n hcp-operator --type=json -p='[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/tolerations",
+    "value": [
+      {
+        "key": "CriticalAddonsOnly",
+        "operator": "Exists"
+      },
+      {
+        "effect": "NoSchedule",
+        "key": "karpenter.sh/controller",
+        "operator": "Exists"
+      }
+    ]
+  }
+]'
+```
 
 ## Code
 

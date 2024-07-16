@@ -39,10 +39,10 @@ spec:
           values: ["nitro"]
         - key: "karpenter.k8s.aws/instance-generation"
           operator: Gt
-          values: ["6"]
+          values: ["5"]
   limits:
-    cpu: 1000
-    memory: 700Gi
+    cpu: 240
+    memory: 1000Gi
   disruption:
     consolidationPolicy: WhenEmpty
     consolidateAfter: 30s

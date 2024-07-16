@@ -40,9 +40,9 @@ module "eks" {
     karpenter = {
       instance_types = ["m7i.large"]
 
-      min_size     = 2
-      max_size     = 3
-      desired_size = 2
+      min_size     = 1
+      max_size     = 2
+      desired_size = 1
 
       labels = {
         # Used to ensure Karpenter runs on nodes that it does not manage

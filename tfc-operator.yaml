@@ -25,6 +25,6 @@ spec:
         - name: tfc-agent
           image: "public.ecr.aws/v0v7m9q0/tfc-agent-custom:latest"
   autoscaling:
-    minReplicas: 150
-    maxReplicas: 300
-    cooldownPeriodSeconds: 60
+    minReplicas: 10
+    maxReplicas: 100
+    cooldownPeriodSeconds: 60kube
