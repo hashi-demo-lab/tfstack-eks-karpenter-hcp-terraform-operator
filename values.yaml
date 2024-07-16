@@ -1,2 +1,2 @@
 operator:
-  watchedNamespaces: ["tfe-agents"]
+  watchedNamespaces: ["hcp-agents"]

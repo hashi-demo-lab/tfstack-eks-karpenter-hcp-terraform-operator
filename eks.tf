@@ -125,7 +125,7 @@ resource "helm_release" "karpenter" {
 
   lifecycle {
     ignore_changes = [
-      repository_password
+     # repository_password
     ]
   }
 }

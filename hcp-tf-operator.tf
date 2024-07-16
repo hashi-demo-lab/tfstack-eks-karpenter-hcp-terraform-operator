@@ -5,10 +5,10 @@ resource "kubernetes_namespace" "operator" {
   }
 }
 
-#create kubernetes namespace
-resource "kubernetes_namespace" "tfe_agents" {
+#create kubernetes namespace for HCP Terraform agents
+resource "kubernetes_namespace" "agents" {
   metadata {
-    name = "tfe-agents"
+    name = "hcp-agents"
   }
 }
 
@@ -18,7 +18,7 @@ resource "kubernetes_secret" "operator" {
 
   metadata {
     name      = "hcp-operator"
-    namespace = kubernetes_namespace.tfe_agents.metadata.0.name
+    namespace = kubernetes_namespace.agents.metadata.0.name
   }
 
   data = {
