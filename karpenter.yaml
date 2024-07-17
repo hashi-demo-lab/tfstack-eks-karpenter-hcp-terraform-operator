@@ -45,7 +45,10 @@ spec:
           values: ["nitro"]
         - key: "karpenter.k8s.aws/instance-generation"
           operator: Gt
-          values: ["5"]
+          values: ["6"]
+        - key: karpenter.k8s.aws/instanckube-family
+          operator: NotIn
+          values: ["m7i-flex"]
   limits:
     cpu: 240
     memory: 1000Gi

@@ -24,8 +24,8 @@ spec:
           image: "public.ecr.aws/v0v7m9q0/tfc-agent-custom:latest"
           resources:
             requests:
-              memory: "2048Mi"
+              memory: "1024Mi"
   autoscaling:
-    minReplicas: 0
-    maxReplicas: 100
+    minReplicas: 10
+    maxReplicas: 10
     cooldownPeriodSeconds: 60
