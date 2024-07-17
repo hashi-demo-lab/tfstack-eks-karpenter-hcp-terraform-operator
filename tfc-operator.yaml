@@ -26,6 +26,6 @@ spec:
             requests:
               memory: "1024Mi"
   autoscaling:
-    minReplicas: 10
+    minReplicas: 2
     maxReplicas: 10
     cooldownPeriodSeconds: 60
